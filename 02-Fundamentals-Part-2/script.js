@@ -100,8 +100,7 @@ console.log(result);
 
 
 //////////////////////////////////
-// DATA STRUCTURES
-// ARRAYS
+// DATA STRUCTURES - ARRAYS
 
 const friends = ["Wallace", "Hugo", "Fabio"];
 console.log(friends);
@@ -172,4 +171,167 @@ console.log(friends.includes(38)); //true
 if (friends.includes("Hugo")) {
   console.log(`You have a friend called Hugo.`);
 }
+
+//////////////////////////////////
+// DATA STRUCTURES - OBJECTS
+
+const person = {
+  firstName: "Leandro",
+  lastName: "Reis",
+  birthYear: 1983,
+  job: "coder",
+  friends: ["Johnny", "Marconi", "Fabio"],
+};
+console.log(person);
+console.log(person.birthYear); // dot notation
+console.log(person["friends"]); // bracket notation
+
+// using the bracket notation to access the object values dynamically
+const nameKey = "Name";
+console.log(`${person["first" + nameKey]} ${person["last" + nameKey]}`);
+
+// const interestedIn = prompt(
+//   "what do you want to know about Leandro? Choose between firstName, lastName, birthYear, job and friends"
+// );
+
+// person[interestedIn]
+//   ? console.log(person[interestedIn])
+//   : console.log(`Not a valid value!`);
+
+// adding new properties to the object
+person.location = "Ireland";
+person["twitter"] = "@leandroreiz";
+console.log(person);
+
+// Challenge
+console.log(
+  `${person.firstName} has ${person.friends.length} friend(s), and his best friend is called ${person.friends[0]}.`
+);
+
+//////////////////////////////////
+// DATA STRUCTURES - OBJECTS METHODS
+const currentYear = new Date().getFullYear();
+
+const person = {
+  firstName: "Leandro",
+  lastName: "Reis",
+  birthYear: 1983,
+  job: "Front-end Developer",
+  friends: ["Johnny", "Marconi", "Fabio"],
+  hasDriversLicense: false,
+
+  //calcAge: (birthYear) => 2021 - birthYear,
+
+  // using the this keyword
+  calcAge: function () {
+    this.age = currentYear - this.birthYear;
+    return this.age;
+  },
+
+  // Challenge
+  // create a method that returns the string "Leandro is a 38-year old coder, and he does't have/has a driver's license."
+  getSummary: function () {
+    return `${this.firstName} is a ${this.calcAge()}-year old ${
+      this.job
+    }, and he ${
+      this.hasDriversLicense ? "has" : "doesn't have"
+    } a driver's license.`;
+  },
+};
+
+// console.log(person.calcAge(1982)); //dot notation
+// console.log(person["calcAge"](1984)); //brackets notation
+
+console.log(person.age);
+
+// run the method
+person.calcAge();
+console.log(person.age);
+
+// challenge
+console.log(person.getSummary());
+//////////////////////////////////
+// LOOPING ITERATIONS
+
+for (let i = 1; i <= 10; i++) {
+  console.log(`Lifting weights repetition ${i} 🏋🏼`);
+}
+
+const currentYear = new Date().getFullYear();
+const person = [
+  "Leandro",
+  "Reis",
+  currentYear - 1983,
+  "Developer",
+  ["Johnny", "Fabio", "Marconi"],
+  true,
+];
+
+const types = [];
+
+for (let i = 0; i < person.length; i++) {
+  console.log(person[i], typeof person[i]);
+  // types[i] = typeof person[i];
+  types.push(typeof person[i]);
+}
+console.log(types);
+
+const birthYears = [1991, 1983, 1986, 2001];
+const ages = [];
+
+for (let i = 0; i < birthYears.length; i++) {
+  ages.push(currentYear - birthYears[i]);
+}
+console.log(ages);
+
+// continue and break
+console.log(`--- ONLY STRINGS ---`);
+for (let i = 0; i < person.length; i++) {
+  if (typeof person[i] !== "string") continue;
+  console.log(person[i]);
+}
+
+console.log(`--- BREAK WITH NUMBER ---`);
+for (let i = 0; i < person.length; i++) {
+  if (typeof person[i] === "number") break;
+  console.log(person[i]);
+}
+
+// Looping backwards
+const currentYear = new Date().getFullYear();
+const person = [
+  "Leandro",
+  "Reis",
+  currentYear - 1983,
+  "Developer",
+  ["Johnny", "Fabio", "Marconi"],
+];
+
+for (let i = person.length - 1; i >= 0; i--) {
+  console.log(person[i]);
+}
+
+// nested loops
+for (let i = 1; i <= 3; i++) {
+  console.log(`----- Starting exercise ${i} -----`);
+  for (let j = 1; j <= 5; j++) {
+    console.log(`Exercise ${i}: Lifting weight repetition ${j}`);
+  }
+}
+
+// Using the WHILE loop
+let i = 1;
+
+while (i <= 5) {
+  console.log(i);
+  i++;
+}
 */
+
+let dice = Math.trunc(Math.random() * 6) + 1;
+
+while (dice !== 6) {
+  console.log(`You rolled: ${dice}`);
+  dice = Math.trunc(Math.random() * 6) + 1;
+  if (dice === 6) console.log(`The loop is about to end!`);
+}
