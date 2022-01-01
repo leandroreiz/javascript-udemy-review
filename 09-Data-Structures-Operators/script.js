@@ -231,7 +231,6 @@ add(...x);
 restaurant.orderPizza('cheese', 'olives', 'prosciutto', 'oregano');
 
 restaurant.orderPizza('cheese');
-*/
 
 /////////////////////////////////////
 // SHORT CIRCUITING (&& AND ||)
@@ -261,3 +260,47 @@ if (restaurant.orderPizza) {
 }
 
 restaurant.orderPizza && restaurant.orderPizza('tomato', 'cheese', 'olives');
+*/
+
+/////////////////////////////////////
+// NULLISH COALESCING OPERATOR (??)
+restaurant.numGuests = 0;
+const guests = restaurant.numGuests || 10;
+console.log(guests);
+
+// Nullish: null and undefined (NOT 0 or '')
+const guestsCorrect = restaurant.numGuests ?? 10;
+console.log(guestsCorrect);
+
+console.log(null ?? undefined ?? 'Leandro');
+
+/////////////////////////////////////
+// LOGICAL ASSIGNEMENTS OPERATORS
+const rest1 = {
+  restName: 'Capri Ristoranti',
+  // numGuests: 23,
+  numGuests: 0,
+};
+
+const rest2 = {
+  restName: 'La Piazza',
+  owner: 'Giovanni Rossi',
+};
+
+// OR assignment operator
+// rest1.numGuests = rest1.numGuests || 10;
+// rest2.numGuests = rest2.numGuests || 10;
+// rest1.numGuests ||= 10;
+// rest2.numGuests ||= 10;
+
+// Nullish assignment operator
+rest1.numGuests ??= 10;
+rest2.numGuests ??= 10;
+console.log(rest1, rest2);
+
+// AND assignment operator
+rest1.owner &&= '<anonymous>';
+rest2.owner &&= '<anonymous>';
+console.log(rest1, rest2);
+
+// git commit -m "Nullish Coalescing & Logical Assignments Operators"
