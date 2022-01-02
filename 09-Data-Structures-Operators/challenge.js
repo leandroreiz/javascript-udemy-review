@@ -1,7 +1,7 @@
 'use strict';
 //////////////////////////////////////
 // Coding Challenge #1
-
+/*
 const game = {
   team1: 'Bayern Munich',
   team2: 'Borrussia Dortmund',
@@ -85,3 +85,7 @@ printGoals(...game.scored);
 // console.log(team1 < team2 ? game.team1 : game.team2);
 team1 < team2 && console.log('Team 1 is more likely to win');
 team2 < team1 && console.log('Team 2 is more likely to win');
+*/
+
+//////////////////////////////////////
+// Coding Challenge #2

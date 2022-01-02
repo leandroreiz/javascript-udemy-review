@@ -302,7 +302,7 @@ console.log(rest1, rest2);
 rest1.owner &&= '<anonymous>';
 rest2.owner &&= '<anonymous>';
 console.log(rest1, rest2);
-*/
+
 /////////////////////////////////////
 // LOOPING ARRAYS: FOR-OF
 const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
@@ -342,3 +342,29 @@ console.log(restaurant.orderRisotto?.(0, 1) ?? 'Method does not exist');
 const users = [];
 
 console.log(users[0]?.name ?? 'User array empty');
+*/
+/////////////////////////////////////
+// LOOPING OBJECTS
+
+// Property NAMES
+const properties = Object.keys(openingHours);
+console.log(properties);
+
+let openStr = `We are open on ${properties.length} days: `;
+
+for (const day of properties) {
+  openStr += `${day}, `;
+}
+console.log(openStr);
+
+// Property VALUES
+const values = Object.values(openingHours);
+console.log(values);
+
+// Entire object
+const entries = Object.entries(openingHours);
+console.log(entries);
+
+for (const [day, { open, close }] of entries) {
+  console.log(`On ${day} we open at ${open} and close at ${close}.`);
+}
