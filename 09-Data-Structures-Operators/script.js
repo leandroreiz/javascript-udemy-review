@@ -441,7 +441,6 @@ ristorante.set(document.querySelector('h1'), 'heading');
 console.log(ristorante);
 console.log(ristorante.size);
 console.log(ristorante.get([1, 2])); // undefined, as they point to different positions in memory (heap)
-*/
 
 const question = new Map([
   ['question', 'What is the best programming language?'],
@@ -474,3 +473,162 @@ console.log(question.get(answer === question.get('correct')));
 console.log([...question]);
 console.log([...question.keys()]);
 console.log([...question.values()]);
+
+/////////////////////////////////////
+// DATA STRUCTURES OVERVIEW
+
+// Sources of data: From the program itself, from the UI and from external resources (web APIs)
+// This generates COLLECTIONS OF DATA and we use DATA STRUCTURES to store this information
+// Simple list? We should use ARRAYS or SETS
+// Key/Value pairs? OBJECTS or MAPS
+*/
+
+/////////////////////////////////////
+// WORKING WITH STRINGS
+let airline = 'TAP Air Portugal';
+let plane = 'A320';
+
+console.log(plane[0]);
+console.log(plane[1]);
+console.log(plane[2]);
+console.log(plane[3]);
+console.log('B737'[0]);
+
+console.log(airline.length);
+console.log('B737'.length);
+
+console.log(airline.indexOf('r'));
+console.log(airline.lastIndexOf('r'));
+console.log(airline.indexOf('Portugal'));
+
+console.log(airline.slice(4)); // Air Portugal (substring)
+console.log(airline.slice(4, 7)); // Air 7-4=3 = length
+
+console.log(airline.slice(0, airline.indexOf(' ')));
+console.log(airline.slice(airline.lastIndexOf(' ') + 1));
+
+console.log(airline.slice(-2)); // al
+console.log(airline.slice(1, -1)); // AP Air Portuga
+
+const checkMiddleSeat = function (seat) {
+  // B and E are middle seats
+  const letter = seat.slice(-1);
+  if (letter === 'B' || letter === 'E') {
+    console.log('You got the middle seat');
+  } else {
+    console.log('You got lucky!');
+  }
+};
+
+checkMiddleSeat('11B');
+checkMiddleSeat('23C');
+checkMiddleSeat('3E');
+
+console.log(new String('Leandro'));
+console.log(typeof new String('Leandro'));
+console.log(typeof new String('Leandro').slice(1));
+
+// STRINGS - PART 2
+console.log(airline.toUpperCase());
+console.log(airline.toLowerCase());
+
+// Fix capitalization in names
+const passenger = 'lEANdrO';
+console.log(passenger);
+const passengerLower = passenger.toLowerCase();
+const passengerCorrect =
+  passengerLower[0].toUpperCase() + passengerLower.slice(1);
+console.log(passengerCorrect);
+
+// Comparing emails
+const email = 'leandro@gmail.com';
+const loginEmail = '  Leandro@Gmail.com \n';
+
+// const lowerEmail = loginEmail.toLowerCase();
+// const trimmedEmail = lowerEmail.trim();
+// console.log(trimmedEmail);
+
+const normalizedEmail = loginEmail.toLowerCase().trim();
+console.log(normalizedEmail);
+console.log(email === normalizedEmail);
+
+// Replacing
+const priceEU = '€288,97';
+const priceUS = priceEU.replace('€', '$').replace(',', '.');
+console.log(priceUS);
+
+const announcement = `All passengers come to boarding door 23. Boarding door 23!`;
+console.log(announcement.replace('door', 'gate')); // replace only the first occurrence
+console.log(announcement.replaceAll('door', 'gate'));
+console.log(announcement.replaceAll(/door/g, 'gate'));
+
+// Booleans
+plane = `Airbus A320neo`;
+console.log(plane.includes('A320')); // true
+console.log(plane.includes('Boieng')); // false
+console.log(plane.startsWith('Air')); // true
+
+if (plane.startsWith('Airbus') && plane.endsWith('neo'))
+  console.log('Part of the new Airbus family');
+
+// Exercise
+const checkBaggage = function (items) {
+  const baggage = items.toLowerCase();
+  if (baggage.includes('knife') || baggage.includes('gun')) {
+    console.log('You are NOT allowed on board');
+  } else {
+    console.log('Welcome aboard!');
+  }
+};
+
+checkBaggage('I have a laptop, some Food and a Pocket Knife');
+checkBaggage('Socks and camera');
+checkBaggage('Got some snacks and a gun for protection');
+
+// STRINGS - PART 3
+// Split and Join
+console.log('a+very+nice+string'.split('+'));
+console.log('Leandro Reis'.split(' '));
+
+const [firstName, lastName] = 'Leandro Reis'.split(' ');
+console.log(firstName, lastName);
+
+const newName = ['Mr.', firstName, lastName.toUpperCase()].join(' ');
+console.log(newName); // Mr. Leandro REIS
+
+const capitalizeName = function (name) {
+  const names = name.split(' ');
+  const namesUpper = [];
+  for (const n of names) {
+    // namesUpper.push(n[0].toUpperCase() + n.slice(1));
+    namesUpper.push(n.replace(n[0], n[0].toUpperCase()));
+  }
+  console.log(namesUpper.join(' '));
+};
+
+capitalizeName('jessica ann smith davis');
+capitalizeName('leandro reis');
+
+// Padding
+const message = `Go to gate 23!`;
+console.log(message.padStart(20, '+').padEnd(30, '+'));
+console.log('Leandro'.padStart(20, '+').padEnd(30, '+'));
+
+const maskCreditCard = function (number) {
+  const str = String(number);
+  const last = str.slice(-4);
+  return last.padStart(str.length, '*');
+};
+
+console.log(maskCreditCard(4332123409874567));
+console.log(maskCreditCard(`5674123409875080`));
+
+// Repeat
+const alertMessage = `Bad weather... All departures delayed.\n`;
+console.log(alertMessage.repeat(5));
+
+const planesInLine = function (n) {
+  console.log(`There are ${n} planes in line ${'✈️'.repeat(n)}`);
+};
+planesInLine(3);
+planesInLine(7);
