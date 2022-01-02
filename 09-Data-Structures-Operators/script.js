@@ -368,4 +368,109 @@ for (const [day, { open, close }] of entries) {
   console.log(`On ${day} we open at ${open} and close at ${close}.`);
 }
 
+
+/////////////////////////////////////
+// SETS
+// A collection of unique elements
+const ordersSet = new Set([
+  'Pasta',
+  'Pizza',
+  'Pizza',
+  'Pasta',
+  'Risotto',
+  'Pizza',
+]);
+
+console.log(ordersSet); // Pasta, Pizza, Risotto
+console.log(new Set('Leandro'));
+console.log(ordersSet.size); // NOT length
+console.log(ordersSet.has('Pizza')); // similar to the method 'contains' for arrays
+console.log(ordersSet.has('Bread'));
+ordersSet.add('Garlic Bread');
+ordersSet.add('Garlic Bread');
+console.log(ordersSet);
+ordersSet.delete('Risotto');
+// ordersSet.clear();
+console.log(ordersSet);
+
+for (const order of ordersSet) {
+  console.log(order);
+}
+
+// Example
+const staff = ['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef', 'Waiter'];
+const staffUnique = [...new Set(staff)];
+console.log(staffUnique);
+console.log(
+  new Set(['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef', 'Waiter']).size
+);
+console.log(new Set('leandroreis').size);
+
+/////////////////////////////////////
+// MAPS
+// Can be used to map values to keys, and these keys can have any type
+
+const ristorante = new Map();
+ristorante.set('name', 'Classico Italiano');
+ristorante.set(1, 'Firenze, Italy');
+console.log(ristorante.set(2, 'Lisbon, Portugal'));
+
+ristorante
+  .set('categories', ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'])
+  .set('open', 11)
+  .set('close', 23)
+  .set(true, 'We are open')
+  .set(false, 'We are closed');
+
+console.log(ristorante.get('name'));
+console.log(ristorante.get(true));
+console.log(ristorante.get(1));
+
+const time = new Date().getHours();
+console.log(
+  ristorante.get(
+    time > ristorante.get('open') && time < ristorante.get('close')
+  )
+);
+
+console.log(ristorante.has('categories'));
+ristorante.delete(2);
+// ristorante.clear();
+ristorante.set([1, 2], 'Test');
+ristorante.set(document.querySelector('h1'), 'heading');
+console.log(ristorante);
+console.log(ristorante.size);
+console.log(ristorante.get([1, 2])); // undefined, as they point to different positions in memory (heap)
 */
+
+const question = new Map([
+  ['question', 'What is the best programming language?'],
+  [1, 'C'],
+  [2, 'Python'],
+  [3, 'JavaScript'],
+  ['correct', 3],
+  [true, 'Correct!'],
+  [false, 'Try again!'],
+]);
+console.log(question);
+
+// Convert Object to Maps
+const hoursMap = new Map(Object.entries(openingHours));
+console.log(hoursMap);
+console.log(Object.entries(openingHours));
+
+// Quiz app
+console.log(question.get('question'));
+
+for (const [key, value] of question) {
+  if (typeof key === 'number') console.log(`Answer ${key}: ${value}`);
+}
+
+// const answer = Number(prompt(`Your answer:`));
+const answer = 3;
+console.log(question.get(answer === question.get('correct')));
+
+// Convert Map to Array
+console.log([...question]);
+console.log([...question.keys()]);
+console.log([...question.values()]);
