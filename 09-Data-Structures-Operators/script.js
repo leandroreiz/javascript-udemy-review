@@ -342,7 +342,6 @@ console.log(restaurant.orderRisotto?.(0, 1) ?? 'Method does not exist');
 const users = [];
 
 console.log(users[0]?.name ?? 'User array empty');
-*/
 /////////////////////////////////////
 // LOOPING OBJECTS
 
@@ -368,3 +367,5 @@ console.log(entries);
 for (const [day, { open, close }] of entries) {
   console.log(`On ${day} we open at ${open} and close at ${close}.`);
 }
+
+*/
