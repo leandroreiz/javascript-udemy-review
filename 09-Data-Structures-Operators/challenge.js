@@ -54,9 +54,6 @@ const gameEvents = new Map([
   [80, '⚽ GOAL'],
   [92, '🟨 Yellow card'],
 ]);
-//////////////////////////////////////
-// Coding Challenge #4
-
 /*
 //////////////////////////////////////
 // Coding Challenge #3
@@ -170,3 +167,38 @@ printGoals(...game.scored);
 team1 < team2 && console.log('Team 1 is more likely to win');
 team2 < team1 && console.log('Team 2 is more likely to win');
 */
+
+//////////////////////////////////////
+// Coding Challenge #4
+
+/*
+underscore_case
+  first_name
+Some_Variable 
+   calculate_AGE
+delayed_departure
+*/
+
+document.body.append(document.createElement('textarea'));
+document.body.append(document.createElement('button'));
+
+const btn = document.querySelector('button');
+const text = document.querySelector('textarea');
+
+btn.addEventListener('click', () => {
+  const variables = text.value.toLowerCase().split('\n');
+  console.log(variables);
+
+  let firstPortion,
+    camelCasePortion = '';
+
+  for (const [i, variable] of [...variables.entries()]) {
+    firstPortion = variable.slice(0, variable.indexOf('_'));
+    camelCasePortion =
+      variable[variable.indexOf('_') + 1].toUpperCase() +
+      variable.slice(variable.indexOf('_') + 2);
+    console.log(
+      (firstPortion + camelCasePortion).trim().padEnd(20) + '✅'.repeat(i + 1)
+    );
+  }
+});
