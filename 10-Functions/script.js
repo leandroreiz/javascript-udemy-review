@@ -62,7 +62,95 @@ const newPassport = function (passportOwner) {
 // 2 different functions manipulating the same object (person), this is creating an issue
 newPassport(person);
 checkIn(flight, person);
+
+//////////////////////////////////////////
+// FIRST-CLASS AND HIGHER-ORDER FUNCTIONS
+// Functions Accepting Call Back Functions
+
+const oneWord = function (str) {
+  return str.replaceAll(' ', '').toLowerCase();
+};
+
+const upperFirstWord = function (str) {
+  const [firstWord, ...others] = str.split(' ');
+  return [firstWord.toUpperCase(), ...others].join(' ');
+};
+
+// Higher-order function
+const transformer = function (str, fn) {
+  console.log(`-----\nOriginal string: ${str}`);
+  console.log(`Transformed string: ${fn(str)}`);
+  console.log(`Transformed by: ${fn.name}`);
+};
+
+transformer('JavaScript is the best!', upperFirstWord);
+transformer('JavaScript is the best!', oneWord);
+
+// Callback function
+const coolFn = () => console.log('😎');
+document.body.addEventListener('click', coolFn);
+['Jonas', 'Marta', 'Adam'].forEach(coolFn);
+//////////////////////////////////////////
+// FUNCTIONS RETURNING FUNCTIONS
+
+
+// const greet = function (greeting) {
+//   return function (name) {
+//     console.log(`${greeting} ${name}!`);
+//   };
+// };
+
+// Using arrow functions
+const greet = greeting => name => console.log(`${greeting} ${name}!`);
+
+const greeterHey = greet('Hey');
+greeterHey('Chelem');
+
+greet('Holla')('Hermano'); // use and call the function at the same
 */
 //////////////////////////////////////////
-//
-git commit -m "Default Parameters & Passing Arguments: Value Vs. Reference"
+// THE CALL AND APPLY METHODS
+
+const lufthansa = {
+  airline: 'Lufthansa',
+  iataCode: 'LH',
+  bookings: [],
+  book(flightNum, passenger) {
+    console.log(
+      `${passenger} booked a seat on ${this.airline} flight ${this.iataCode}${flightNum}.`
+    );
+    this.bookings.push({ flight: `${this.iataCode}${flightNum}`, passenger });
+  },
+};
+
+const eurowings = {
+  airline: 'Eurowings',
+  iataCode: 'EW',
+  bookings: [],
+};
+
+const swiss = {
+  airline: 'Swiss Air Lines',
+  iataCode: 'LX',
+  bookings: [],
+};
+
+lufthansa.book(239, 'Leandro Reis');
+lufthansa.book(635, 'Chelem Rodrigues');
+
+const book = lufthansa.book;
+// book(1413, 'Philipe Cabrera'); // This doesn't work because of the 'this' keyword
+
+// CALL method
+book.call(eurowings, 23, 'Philipe Cabrera');
+book.call(lufthansa, 239, 'Fabio Miranda');
+book.call(swiss, 583, 'Johnny Neder');
+
+// APPLY method
+const flightData = [583, 'George Cooper'];
+book.apply(swiss, flightData);
+// book.call(swiss, ...flightData); // Same and preferred
+
+console.log(eurowings);
+console.log(lufthansa);
+console.log(swiss);
