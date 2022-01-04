@@ -147,10 +147,55 @@ book.call(lufthansa, 239, 'Fabio Miranda');
 book.call(swiss, 583, 'Johnny Neder');
 
 // APPLY method
-const flightData = [583, 'George Cooper'];
+const flightData = [583, 'Andre Reis'];
 book.apply(swiss, flightData);
 // book.call(swiss, ...flightData); // Same and preferred
 
-console.log(eurowings);
+//////////////////////////////////////////
+// THE BIND METHOD
+
+const bookLH = book.bind(lufthansa);
+const bookEW = book.bind(eurowings);
+const bookLX = book.bind(swiss);
+
+bookEW(77, 'Maria Luiza');
+
+// Creating a binded function for a specific airline and flight
+// Partial application
+const bookEW23 = book.bind(eurowings, 77);
+bookEW23('Leonardo Fernandes');
+
+// Printing the objects
 console.log(lufthansa);
+console.log(eurowings);
 console.log(swiss);
+
+// With event listeners
+lufthansa.planes = 300;
+lufthansa.buyPlane = function () {
+  console.log(this);
+
+  this.planes++;
+  console.log(this.planes);
+};
+
+// document
+//   .querySelector('.buy')
+//   .addEventListener('click', lufthansa.buyPlane);
+// When using the 'EventListener' the 'this' keyword always point to the element on which the function is attached to it, in this case the button. Using the 'bind' and selecting to where the 'this' keyword will point solve the problem.
+
+document
+  .querySelector('.buy')
+  .addEventListener('click', lufthansa.buyPlane.bind(lufthansa));
+
+// Partial application (presetting parameters)
+const addTax = (rate, value) => value + value * rate;
+console.log(addTax(0.1, 200));
+
+// Use null if no this keyword needed
+const addVAT = addTax.bind(null, 0.23);
+console.log(addVAT(100));
+
+// Challenge
+const purchaseTotal = value => rate => value + value * rate;
+console.log(purchaseTotal(1000)(0.23));
