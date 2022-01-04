@@ -6,14 +6,14 @@
 
 // Data
 const account1 = {
-  owner: 'Jonas Schmedtmann',
+  owner: 'Leandro Reis',
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
   interestRate: 1.2, // %
   pin: 1111,
 };
 
 const account2 = {
-  owner: 'Jessica Davis',
+  owner: 'Chelem Rodrigues',
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
@@ -61,93 +61,23 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// LECTURES
+// Leandro Reis
+const displayMovements = function (movements) {
+  containerMovements.innerHTML = ``;
 
-const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
-]);
+  movements.forEach((mov, i) => {
+    const type = mov > 0 ? 'deposit' : 'withdrawal';
 
-// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+    const html = `
+      <div class="movements__row">
+        <div class="movements__type movements__type--${type}">${
+      i + 1
+    } ${type}</div>
+        <div class="movements__value">${mov}€</div>
+      </div>
+    `;
 
-/////////////////////////////////////////////////
-/*
-let arr = ['a', 'b', 'c', 'd', 'e'];
-
-/////////////////////////////////////////////////
-// SLICE (does NOT mutate)
-console.log(arr.slice(2));
-console.log(arr.slice(2, 4));
-console.log(arr.slice(-2));
-console.log(arr.slice(-1));
-console.log(arr.slice(1, -2));
-console.log(arr.slice()); // Shalow copy of an array
-console.log([...arr]); // Same as above
-
-/////////////////////////////////////////////////
-// SPLICE (mutates)
-// Removes elements from an array and returns them
-// Sintax: arr[start, deleteCount]
-// console.log('splice', arr.splice(2)); // Mutates the array
-arr.splice(-1); // last element deleted
-console.log('splice', arr);
-arr.splice(1, 2); // b and c deleted
-console.log('splice', arr);
-
-/////////////////////////////////////////////////
-// REVERSE (mutates)
-arr = ['a', 'b', 'c', 'd', 'e'];
-const arr2 = ['j', 'i', 'h', 'g', 'f'];
-
-console.log(arr2.reverse());
-console.log('reverse', arr2);
-
-/////////////////////////////////////////////////
-// CONCAT (does NOT mutate)
-const letters = arr.concat(arr2); // return a new array
-console.log('concat', letters);
-console.log([...arr, ...arr2]); // same as above
-
-/////////////////////////////////////////////////
-// JOIN (does NOT mutate)
-console.log(letters.join(' - ')); // returns a string
-*/
-
-/////////////////////////////////////////////////
-// THE NEW 'at' METHOD
-const arr = [23, 11, 64];
-console.log(arr[0]);
-console.log(arr.at(0));
-
-// getting last array element
-console.log(arr[arr.length - 1]);
-console.log(arr.slice(-1)[0]);
-console.log(arr.at(-1));
-
-console.log('Leandro'.at(0));
-console.log('Leandro'.at(-1));
-
-/////////////////////////////////////////////////
-// LOOPING ARRAYS WITH FOREACH
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-
-console.log(`---- for-of ----`);
-for (const [i, mov] of movements.entries()) {
-  if (mov > 0) {
-    console.log(`Mv${i + 1}. You deposited €${mov}`);
-  } else {
-    console.log(`Mv${i + 1}. You withdrew €${Math.abs(mov)}`);
-  }
-}
-
-console.log(`---- forEach ----`);
-movements.forEach((mov, i) => {
-  if (mov > 0) {
-    console.log(`Mv${i + 1}. You deposited €${mov}`);
-  } else {
-    console.log(`Mv${i + 1}. You withdrew €${Math.abs(mov)}`);
-  }
-});
+    containerMovements.insertAdjacentHTML('afterbegin', html);
+  });
+};
+displayMovements(account1.movements);
