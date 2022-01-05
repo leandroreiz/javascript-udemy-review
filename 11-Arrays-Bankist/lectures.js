@@ -78,7 +78,6 @@ movements.forEach((mov, i) => {
     console.log(`Mv${i + 1}. You withdrew €${Math.abs(mov)}`);
   }
 });
-*/
 
 /////////////////////////////////////////////////
 // FOREACH WITH MAPS AND SETS
@@ -101,3 +100,22 @@ currenciesUnique.forEach((value, _, map) => {
   // _ 'throw away variable convention'
   console.log(`${value}`);
 });
+*/
+
+/////////////////////////////////////////////////
+// ARRAYS: MAP, FILTER AND REDUCE
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const eurToUsd = 1.1;
+
+// Using the MAP method
+const movementsUsd = movements.map(el => el * eurToUsd);
+console.log(movements, movementsUsd);
+
+const movDescriptions = movements.map(
+  (value, i) =>
+    `Mv.${i + 1}: You ${value > 0 ? `deposited` : `withdrew`} ${Math.abs(
+      value
+    )}`
+);
+console.log(movDescriptions);
