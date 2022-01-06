@@ -100,7 +100,7 @@ currenciesUnique.forEach((value, _, map) => {
   // _ 'throw away variable convention'
   console.log(`${value}`);
 });
-*/
+
 
 /////////////////////////////////////////////////
 // ARRAYS: MAP, FILTER AND REDUCE
@@ -119,3 +119,21 @@ const movDescriptions = movements.map(
     )}`
 );
 console.log(movDescriptions);
+*/
+// FILTER method
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+const deposits = movements.filter(value => value > 0);
+console.log(deposits);
+
+const withdrawals = movements.filter(value => value < 0);
+console.log(withdrawals);
+
+// REDUCE method
+const balance = movements.reduce((sum, value) => {
+  return sum + value;
+}, 0);
+console.log(balance);
+
+const max = movements.reduce((prev, curr) => (prev > curr ? prev : curr), 0);
+console.log(max);
