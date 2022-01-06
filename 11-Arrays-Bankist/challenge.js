@@ -42,13 +42,26 @@ checkDogs([9, 16, 6, 8, 3], [10, 5, 6, 1, 4]);
 
 // Your tasks:
 // Create a function 'calcAverageHumanAge', which accepts an arrays of dog's ages ('ages'), and does the following things in order:
-const calcAverageHumanAge = function (ages) {
+// const calcAverageHumanAge = function (ages) {
+//   const humanAges = ages
+//     // 1. Calculate the dog age in human years using the following formula: if the dog is <= 2 years old, humanAge = 2 * dogAge. If the dog is > 2 years old, humanAge = 16 + dogAge * 4
+//     .map(age => (age <= 2 ? 2 * age : 16 + age * 4))
+//     // 2. Exclude all dogs that are less than 18 human years old (which is the same as keeping dogs that are at least 18 years old)
+//     .filter(age => age >= 18)
+//     // 3. Calculate the average human age of all adult dogs (you should already know from other challenges how we calculate averages)
+//     .reduce((acc, age, i, arr) => acc + age / arr.length, 0);
+//   return humanAges;
+// };
+
+///////////////////////////////////////////////
+// Coding Challenge #3
+
+// Rewrite the 'calcAverageHumanAge' function from Challenge #2, but this time as an arrow function, and using chaining!
+
+const calcAverageHumanAge = ages => {
   const humanAges = ages
-    // 1. Calculate the dog age in human years using the following formula: if the dog is <= 2 years old, humanAge = 2 * dogAge. If the dog is > 2 years old, humanAge = 16 + dogAge * 4
     .map(age => (age <= 2 ? 2 * age : 16 + age * 4))
-    // 2. Exclude all dogs that are less than 18 human years old (which is the same as keeping dogs that are at least 18 years old)
     .filter(age => age >= 18)
-    // 3. Calculate the average human age of all adult dogs (you should already know from other challenges how we calculate averages)
     .reduce((acc, age, i, arr) => acc + age / arr.length, 0);
   return humanAges;
 };

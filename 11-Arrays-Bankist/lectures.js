@@ -119,7 +119,7 @@ const movDescriptions = movements.map(
     )}`
 );
 console.log(movDescriptions);
-*/
+
 // FILTER method
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
@@ -137,3 +137,14 @@ console.log(balance);
 
 const max = movements.reduce((prev, curr) => (prev > curr ? prev : curr), 0);
 console.log(max);
+*/
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const eurToUsd = 1.1;
+
+const totalDepositsInUSD = movements
+  .filter(mov => mov > 0)
+  .map(mov => mov * eurToUsd)
+  .reduce((acc, mov) => acc + mov)
+  .toFixed(2);
+
+console.log(totalDepositsInUSD);
