@@ -149,8 +149,8 @@ const totalDepositsInUSD = movements
 
 console.log(totalDepositsInUSD);
 */
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 const firstWithdrawal = movements.find(mov => mov < 0);
 console.log(firstWithdrawal);
 
@@ -196,3 +196,52 @@ for (const account of accounts) {
     console.log(account);
   }
 }
+
+/////////////////////////////////////////////////
+// SOME, EVERY, FLAT, FLATMAP
+
+console.log(movements);
+
+// Equality
+console.log(movements.includes(-130));
+
+// Condition
+const anyDeposits = movements.some(mov => mov > 0);
+console.log(anyDeposits);
+
+// Every
+console.log(account1.movements.every(mov => mov > 0)); // false
+console.log(account4.movements.every(mov => mov > 0)); // true
+
+// Separate callback
+const deposit = mov => mov > 0;
+console.log(movements.some(deposit));
+console.log(movements.every(deposit));
+console.log(movements.filter(deposit));
+
+const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
+console.log(arr.flat());
+
+const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
+console.log(arrDeep.flat());
+console.log(arrDeep.flat(2)); // 2 levels
+
+const accountMovements = accounts.map(acc => acc.movements);
+console.log(accountMovements);
+
+const allMovements = accountMovements.flat();
+console.log(allMovements);
+// const overallBalance = allMovements.reduce((acc, mov) => acc + mov);
+
+// Using chaining
+let overallBalance = accounts
+  .map(acc => acc.movements)
+  .flat()
+  .reduce((acc, mov) => acc + mov);
+console.log(overallBalance);
+
+// flatMap
+overallBalance = accounts
+  .flatMap(acc => acc.movements) // only goes one level deeper
+  .reduce((acc, mov) => acc + mov);
+console.log(overallBalance);
