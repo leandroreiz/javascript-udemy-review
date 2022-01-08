@@ -276,7 +276,6 @@ overallBalance = accounts
   .flatMap(acc => acc.movements) // only goes one level deeper
   .reduce((acc, mov) => acc + mov);
 console.log(overallBalance);
-*/
 
 /////////////////////////////////////////////////
 // SORTING ARRAYS
@@ -306,3 +305,95 @@ console.log(movements);
 // });
 movements.sort((a, b) => b - a);
 console.log(movements);
+
+/////////////////////////////////////////////////
+// CREATING AND FILLING ARRAYS
+
+const arr = [1, 2, 3, 4, 5, 6, 7];
+console.log(new Array(1, 2, 3, 4, 5, 6, 7));
+
+const x = new Array(7);
+console.log(x);
+
+x.fill(1); // mutates the array
+// x.fill(1, 3); // fills starting at index 3
+// x.fill(1, 3, 5); // starts at 3 and ends on 5
+console.log(x);
+
+arr.fill(23, 1, 6);
+console.log(arr);
+
+// Array.from
+const y = Array.from({ length: 7 }, () => 1);
+console.log(y);
+
+const z = Array.from({ length: 7 }, (_, i) => i + 1);
+console.log(z);
+
+// Create an array with 100 dice rolls
+const diceRolls100 = Array.from({ length: 100 }, (cur, i) => {
+  const roll = Math.trunc(Math.random() * 6 + 1);
+  return roll;
+});
+console.log(diceRolls100);
+
+labelBalance.addEventListener('click', function () {
+  const movementsUI = Array.from(
+    document.querySelectorAll('.movements__value'),
+    el => Number(el.textContent.replace('€', ''))
+  );
+  console.log(movementsUI);
+});
+*/
+
+/////////////////////////////////////////////////
+// SUMMARY: WHICH ARRAY METHOD TO USE
+
+// 1.
+const bankDepositSum = accounts
+  .flatMap(acc => acc.movements)
+  .filter(mov => mov > 0)
+  .reduce((acc, mov) => acc + mov, 0);
+
+console.log(bankDepositSum);
+
+// 2.
+const numDeposit1000 = accounts
+  .flatMap(acc => acc.movements)
+  .filter(mov => mov >= 1000).length; // 6
+// .reduce((count, cur) => (cur >= 1000 ? ++count : count), 0); // 6
+
+console.log(numDeposit1000);
+
+// 3.
+const { deposits, withdrawals } = accounts
+  .flatMap(acc => acc.movements)
+  .reduce(
+    (obj, cur) => {
+      // cur > 0 ? (obj.deposits += cur) : (obj.withdrawals += cur);
+      obj[cur > 0 ? `deposits` : `withdrawals`] += cur;
+      return obj;
+    },
+    { deposits: 0, withdrawals: 0 }
+  );
+
+console.log(deposits, withdrawals);
+
+// 4.
+// this is a nice title -> This Is a Nice Title
+const convertTitleCase = function (title) {
+  const capitalize = str => str.at(0).toUpperCase() + str.slice(1);
+
+  const exceptions = ['a', 'an', 'and', 'the', 'but', 'or', 'on', 'in', 'with'];
+
+  const titleCase = title
+    .toLowerCase()
+    .split(' ')
+    .map(word => (exceptions.includes(word) ? word : capitalize(word)))
+    .join(' ');
+
+  return capitalize(titleCase);
+};
+console.log(convertTitleCase(`this is a nice title`));
+console.log(convertTitleCase(`tHiS iS A LONG TitLe, but not too long`));
+console.log(convertTitleCase(`and here is another title with an EXAMPLE`));
