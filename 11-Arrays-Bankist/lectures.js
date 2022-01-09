@@ -2,6 +2,7 @@
 /////////////////////////////////////////////////
 // LECTURES
 /////////////////////////////////////////////////
+/*
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 const account1 = {
@@ -34,7 +35,6 @@ const account4 = {
 
 const accounts = [account1, account2, account3, account4];
 
-/*
 let arr = ['a', 'b', 'c', 'd', 'e'];
 
 /////////////////////////////////////////////////
@@ -344,7 +344,7 @@ labelBalance.addEventListener('click', function () {
   );
   console.log(movementsUI);
 });
-*/
+
 
 /////////////////////////////////////////////////
 // SUMMARY: WHICH ARRAY METHOD TO USE
@@ -397,3 +397,4 @@ const convertTitleCase = function (title) {
 console.log(convertTitleCase(`this is a nice title`));
 console.log(convertTitleCase(`tHiS iS A LONG TitLe, but not too long`));
 console.log(convertTitleCase(`and here is another title with an EXAMPLE`));
+*/
