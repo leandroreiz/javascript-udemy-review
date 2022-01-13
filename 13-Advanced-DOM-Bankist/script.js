@@ -89,7 +89,7 @@ console.log(message.style.backgroundColor); // rgb(55, 56, 61)
 message.style.height =
   Number.parseFloat(getComputedStyle(message).height, 10) + 30 + 'px';
 
-document.documentElement.style.setProperty('--color-primary', 'orangered');
+// document.documentElement.style.setProperty('--color-primary', 'orangered');
 
 ///////////////////////////////////////
 // ATTRIBUTES
@@ -118,10 +118,37 @@ console.log(link.getAttribute('href')); // #
 console.log(logo.dataset.versionNumber);
 
 // Classes
-logo.classList.add('a', 'b');
-logo.classList.remove();
-logo.classList.toggle();
-logo.classList.contains();
+// logo.classList.add('a', 'b');
+// logo.classList.remove();
+// logo.classList.toggle();
+// logo.classList.contains();
 
-// remove all other classes
+// Remove all other classes
 // logo.className = 'DontUseThis';
+
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.getElementById('section--1');
+
+btnScrollTo.addEventListener('click', e => {
+  // Smooth Scrolling modern way
+  section1.scrollIntoView({ behavior: 'smooth' });
+
+  // Lecture //////
+  // console.log(s1coords);
+  // console.log(e.target.getBoundingClientRect());
+  // console.log('Current scroll (x/y):', window.scrollX, window.scrollY);
+  // console.log(
+  //   'Height/width viewport:',
+  //   document.documentElement.clientHeight,
+  //   document.documentElement.clientWidth
+  // );
+  /////////////////
+
+  // Smooth Scrolling old way
+  // const s1coords = section1.getBoundingClientRect();
+  // window.scrollTo({
+  //   left: s1coords.left + window.scrollX,
+  //   top: s1coords.top + window.scrollY,
+  //   behavior: 'smooth',
+  // });
+});
