@@ -7,6 +7,8 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.getElementById('section--1');
 
 const openModal = function (e) {
   e.preventDefault();
@@ -32,12 +34,37 @@ document.addEventListener('keydown', function (e) {
 });
 
 ///////////////////////////////////////
+// Button Learn More Scrolling
+btnScrollTo.addEventListener('click', e => {
+  section1.scrollIntoView({ behavior: 'smooth' });
+});
+
+///////////////////////////////////////
+// Page Navigation
+
+// Event delegation
+// 1. add eventListener to common parent element
+// 2. determine what element originated the event
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  e.preventDefault();
+
+  // Matching strategy
+  if (e.target.classList.contains('nav__link')) {
+    const id = e.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  }
+});
+
+///////////////////////////////////////
 ///////////////////////////////////////
 ///////////////////////////////////////
 // LECTURES
 
+/*
+
 ///////////////////////////////////////
 // SELECTING ELEMENTS
+
 console.log(document.documentElement);
 console.log(document.head);
 console.log(document.body);
@@ -58,6 +85,7 @@ console.log(document.getElementsByClassName('btn'));
 
 ///////////////////////////////////////
 // CREATING AND INSERTING ELEMENTS
+
 // .insertAdjacentHTML
 const message = document.createElement('div');
 message.classList.add('cookie-message');
@@ -71,6 +99,7 @@ header.append(message);
 
 ///////////////////////////////////////
 // DELETING ELEMENTS
+
 document
   .querySelector('.btn--close-cookie')
   .addEventListener('click', () => message.remove());
@@ -79,6 +108,7 @@ document
 
 ///////////////////////////////////////
 // STYLES
+
 message.style.backgroundColor = '#37383d';
 message.style.width = '104%';
 
@@ -153,19 +183,97 @@ btnScrollTo.addEventListener('click', e => {
   // });
 });
 
-// Event Listeners
-const h1 = document.querySelector('h1');
+///////////////////////////////////////
+// EVENT LISTENERS
 
-const alertH1 = function (e) {
-  alert(`addEventListener: Great! You are reading the header!`);
-};
+// const h1 = document.querySelector('h1');
 
-h1.addEventListener('mouseenter', alertH1);
+// const alertH1 = function (e) {
+//   alert(`addEventListener: Great! You are reading the header!`);
+// };
 
-setTimeout(() => {
-  h1.removeEventListener('mouseenter', alertH1);
-}, 3000);
+// h1.addEventListener('mouseenter', alertH1);
+
+// setTimeout(() => {
+//   h1.removeEventListener('mouseenter', alertH1);
+// }, 3000);
 
 // h1.onmouseenter = function (e) {
 //   alert(`onmouseenter: Great! You are reading the header!`);
 // };
+
+// rgb(255,255,255)
+const randomInt = (min, max) =>
+  Math.floor(Math.random() * (max - min + 1) + min);
+
+const randomColor = () =>
+  `rgb(${randomInt(0, 255)},${randomInt(0, 255)},${randomInt(0, 255)})`;
+
+document.querySelector('.nav__link').addEventListener('click', function (e) {
+  this.style.backgroundColor = randomColor();
+  console.log('Link', e.target, e.currentTarget);
+  console.log(
+    `this keyword and e.currentTarget are the same?`,
+    this === e.currentTarget
+  );
+
+  // Stop propagation
+  // e.stopPropagation();
+});
+
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  this.style.backgroundColor = randomColor();
+  console.log('Links', e.target, e.currentTarget);
+});
+
+document.querySelector('.nav').addEventListener(
+  'click',
+  function (e) {
+    this.style.backgroundColor = randomColor();
+    console.log('Nav', e.target, e.currentTarget);
+  }
+  // true // listening for the capture events instead of bubbling events
+);
+
+///////////////////////////////////////
+// Page Navigation
+
+// document.querySelectorAll('.nav__link').forEach(el => {
+//   el.addEventListener('click', function (e) {
+//     e.preventDefault();
+//     const id = this.getAttribute('href');
+//     document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+//   });
+// });
+*/
+
+const h1 = document.querySelector('h1');
+
+// Going Downwards: Selecting Child Elements
+console.log(h1.querySelectorAll('.highlight'));
+console.log(h1.childNodes);
+console.log(h1.children); // Only direct children
+h1.firstElementChild.style.color = 'white';
+h1.lastElementChild.style.color = 'orangered';
+
+// Going Upwards : Selecting Parent Elements
+console.log(h1.parentNode);
+console.log(h1.parentElement);
+h1.closest('.header').style.background = 'var(--gradient-secondary)';
+h1.closest('h1').style.background = 'var(--gradient-primary)';
+
+// Going Sideways: Selecting Siblings
+console.log(h1.previousElementSibling);
+console.log(h1.nextElementSibling);
+
+// Nodes
+console.log(h1.previousSibling);
+console.log(h1.nextSibling);
+
+// If we need all the siblings
+console.log(h1.parentElement.children);
+[...h1.parentElement.children].forEach(function (el) {
+  if (el !== h1) {
+    el.style.transform = 'scale(0.5)';
+  }
+});
