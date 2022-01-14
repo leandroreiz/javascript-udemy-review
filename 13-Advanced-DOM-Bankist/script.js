@@ -1,7 +1,7 @@
 'use strict';
 
 ///////////////////////////////////////
-// Modal window
+// Selectors
 
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
@@ -9,6 +9,12 @@ const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.getElementById('section--1');
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+
+///////////////////////////////////////
+// Modal Window
 
 const openModal = function (e) {
   e.preventDefault();
@@ -34,7 +40,7 @@ document.addEventListener('keydown', function (e) {
 });
 
 ///////////////////////////////////////
-// Button Learn More Scrolling
+// Learn More Button Smooth Scrolling
 btnScrollTo.addEventListener('click', e => {
   section1.scrollIntoView({ behavior: 'smooth' });
 });
@@ -53,6 +59,31 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
     const id = e.target.getAttribute('href');
     document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
   }
+});
+
+///////////////////////////////////////
+// Tabbed Component
+
+tabsContainer.addEventListener('click', function (e) {
+  const clicked = e.target.closest('.operations__tab');
+
+  // Guard clause
+  // if clicking on the parent element it returns null and generates an error message, this condition checks if is there any truthy value
+  if (!clicked) return;
+
+  // Removing the active classes from elements
+  tabs.forEach(tab => tab.classList.remove('operations__tab--active'));
+  tabsContent.forEach(tab =>
+    tab.classList.remove('operations__content--active')
+  );
+
+  // Activate tab
+  clicked.classList.add('operations__tab--active');
+
+  // Activate content area
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add('operations__content--active');
 });
 
 ///////////////////////////////////////
@@ -245,7 +276,6 @@ document.querySelector('.nav').addEventListener(
 //     document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
 //   });
 // });
-*/
 
 const h1 = document.querySelector('h1');
 
@@ -277,3 +307,4 @@ console.log(h1.parentElement.children);
     el.style.transform = 'scale(0.5)';
   }
 });
+*/
