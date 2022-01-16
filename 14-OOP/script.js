@@ -195,7 +195,7 @@ sarah.init('Sarah', 1979);
 sarah.calcAge(); // 43
 
 //////////////////////////////////////////////
-// INHERITANCE BETWEEN CLASSES
+// INHERITANCE BETWEEN CLASSES: CONSTRUCTOR
 
 const Person = function (firstName, birthYear) {
   this.firstName = firstName;
@@ -243,7 +243,195 @@ console.dir(Student.prototype.constructor); // Person
 Student.prototype.constructor = Student;
 console.dir(Student.prototype.constructor); // Student
 console.log(leandro);
+
+//////////////////////////////////////////////
+// INHERITANCE BETWEEN CLASSES: ES6 CLASSES
+
+class PersonCl {
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
+    this.birthYear = birthYear;
+  }
+
+  // methods will be automatically added to .prototype property
+  calcAge() {
+    console.log(new Date().getFullYear() - this.birthYear);
+  }
+
+  greet() {
+    console.log(`Seja bem-vindo ${this.fullName}!`);
+  }
+
+  get age() {
+    return new Date().getFullYear() - this.birthYear;
+  }
+
+  // set a property that already exists
+  set fullName(name) {
+    if (name.includes(' ')) {
+      this._fullName = name;
+    } else {
+      alert(`${name} is not a full name!`);
+    }
+  }
+
+  get fullName() {
+    return this._fullName;
+  }
+
+  static holla() {
+    console.log(`Holla ✋🏼`);
+  }
+}
+
+// Creating a new class inheriting from PersonCl
+class StudentCl extends PersonCl {
+  constructor(fullName, birthYear, course) {
+    // Always needs to happen first!
+    super(fullName, birthYear);
+    this.course = course;
+  }
+
+  introduce() {
+    console.log(
+      `Hi, my name is ${this.fullName} and I am a ${this.course} student!`
+    );
+  }
+
+  calcAge() {
+    console.log(
+      `I'm ${
+        new Date().getFullYear() - this.birthYear
+      } years old, but as a student I feel more like ${
+        new Date().getFullYear() - this.birthYear + 10
+      }!`
+    );
+  }
+}
+
+const leonardo = new StudentCl('Leonardo Fernandes', 1975, 'Computer Science');
+leonardo.introduce();
+leonardo.calcAge();
+
+//////////////////////////////////////////////
+// INHERITANCE BETWEEN CLASSES: OBJECT.CREATE
+
+const PersonProto = {
+  calcAge() {
+    console.log(new Date().getFullYear() - this.birthYear);
+  },
+
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+};
+
+const steven = Object.create(PersonProto);
+const StudentProto = Object.create(PersonProto);
+
+StudentProto.init = function (firstName, birthYear, course) {
+  PersonProto.init.call(this, firstName, birthYear);
+  this.course = course;
+};
+
+StudentProto.introduce = function () {
+  console.log(`My name is ${this.firstName} and I study ${this.course}.`);
+};
+
+const jay = Object.create(StudentProto);
+console.log(jay);
+jay.init('Jay', 2001, 'Computer Science');
+console.log(jay);
+jay.introduce();
+jay.calcAge();
+
+//////////////////////////////////////////////
+// ANOTHER CLASS EXAMPLE
+// ENCAPSULATION: PROTECTED PROPERTIES AND METHODS
+// ENCAPSULATION: PRIVATE CLASS FIELDS AND METHODS
+
+// Protected property convention
+// _propertyName
+
+// Public fields
+// Private fields
+// Public methods
+// Private methods
+// (there is also the static version)
+
+class Account {
+  // Public field (instances)
+  locale = navigator.language;
+
+  // Private fields
+  #movements = [];
+  #pin;
+
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    this.#pin = pin;
+
+    console.log(`Thanks for opening an account, ${this.owner}!`);
+  }
+
+  // Public Interface
+  getMovements() {
+    return this.#movements;
+  }
+
+  deposit(value) {
+    this.#movements.push(value);
+    return this;
+  }
+
+  withdraw(value) {
+    this.deposit(-value);
+    return this;
+  }
+
+  requestLoan(value) {
+    if (this._approveLoan(value)) {
+      this.deposit(value);
+      console.log(`Loan Approved!`);
+      return this;
+    }
+  }
+
+  static helper() {
+    console.log(`Not available in instances! Only in the class itself.`);
+  }
+
+  // Private methods
+  // #approveLoan(value) {
+  _approveLoan(value) {
+    return true;
+  }
+}
+
+const acc1 = new Account('Leandro', 'EUR', 1111);
+console.log(acc1);
+
+// acc1.movements.push(250);
+acc1.deposit(250);
+// acc1.movements.push(-140);
+acc1.withdraw(140);
+acc1.requestLoan(1000);
+// acc1.approveLoan(1000); // this shouldn't be possible
+console.log(acc1);
+console.log(acc1.pin);
+console.log(acc1.getMovements());
+Account.helper();
+
+// Private field '#movements' must be declared in an enclosing class
+// console.log(acc1.#movements);
+
+// Chaining
+acc1.deposit(300).deposit(500).withdraw(35).requestLoan(2500).withdraw(1250);
+console.log(acc1);
 */
+
 //////////////////////////////////////////////
 // CHALLENGE #1 - OOP
 
@@ -300,6 +488,7 @@ class CarCl {
   break() {
     this.speed -= 5;
     console.log(`The ${this.make} is going at ${this.speed}km/h.`);
+    return this;
   }
 
   // 2. Add a getter called 'speedUS' which returns the current speed in mi/h (divide by 1.6)
@@ -350,7 +539,7 @@ EV.prototype.accelerate = function () {
   this.speed += 20;
   this.charge--;
   console.log(
-    `Tesla going at ${this.speed} km/h, with a charge of ${this.charge}%.`
+    `The ${this.make} going at ${this.speed} km/h, with a charge of ${this.charge}%.`
   );
 };
 
@@ -366,3 +555,50 @@ tesla.accelerate();
 tesla.chargeBattery(90);
 tesla.brake();
 tesla.accelerate();
+
+//////////////////////////////////////////////
+// CHALLENGE #4 - CLASS INHERITANCE, PRIVATE PROPERTIES
+
+// 1. Re-create Challenge #3, but this time using ES6 classes: create an 'EVCl' child class of the 'CarCl' class
+
+class EVCl extends CarCl {
+  // 2. Make the 'charge' property private
+  #charge;
+
+  constructor(make, speed, charge) {
+    super(make, speed);
+    this.#charge = charge;
+  }
+
+  chargeBattery(chargeTo) {
+    this.#charge = chargeTo;
+    return this;
+  }
+
+  accelerate() {
+    this.speed += 20;
+    this.#charge--;
+    console.log(
+      `The ${this.make} going at ${this.speed} km/h, with a charge of ${
+        this.#charge
+      }%.`
+    );
+    return this;
+  }
+}
+
+// 3. Implement the ability to chain the 'accelerate' and 'chargeBattery' methods of this class, and also update the 'brake' method in the 'CarCl' class. Then experiment with chaining!
+// Test data:
+// § Data car 1: 'Rivian' going at 120 km/h, with a charge of 23%
+
+const rivian = new EVCl('Rivian', 120, 23);
+console.log(rivian);
+rivian
+  .accelerate()
+  .accelerate()
+  .accelerate()
+  .break()
+  .chargeBattery(50)
+  .accelerate();
+
+console.log(rivian.speedUS);
