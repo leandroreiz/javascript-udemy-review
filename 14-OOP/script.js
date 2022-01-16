@@ -193,11 +193,60 @@ console.log(steven.__proto__ === PersonProto); // true
 const sarah = Object.create(PersonProto);
 sarah.init('Sarah', 1979);
 sarah.calcAge(); // 43
-*/
 
 //////////////////////////////////////////////
-// CHALLENGE - OOP #1
-/*
+// INHERITANCE BETWEEN CLASSES
+
+const Person = function (firstName, birthYear) {
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+};
+
+Person.prototype.calcAge = function () {
+  return console.log(new Date().getFullYear() - this.birthYear);
+};
+
+const Student = function (firstName, birthYear, course) {
+  Person.call(this, firstName, birthYear);
+  this.course = course;
+};
+
+// leandro.calcAge(); // calcAge() is linked to the Person prototype
+
+// Creating the connection to Person.prototype
+Student.prototype = Object.create(Person.prototype);
+
+// the connection above need to be done prior to creating new methods in Student.prototype, as the Object.create would erase previous methods
+Student.prototype.introduce = function () {
+  console.log(
+    `Hi, my name is ${this.firstName} and I am a ${this.course} student!`
+  );
+};
+
+const leandro = new Student('Leandro', 1983, 'Programming');
+console.log(leandro);
+leandro.introduce();
+leandro.calcAge();
+
+console.log(leandro.__proto__);
+console.log(leandro.__proto__.__proto__);
+console.log(leandro.__proto__.__proto__.__proto__);
+console.log(leandro.__proto__.__proto__.__proto__.__proto__); // null
+
+console.log(leandro instanceof Student); // true
+console.log(leandro instanceof Person); // true
+console.log(leandro instanceof Object); // true
+
+console.dir(Student.prototype.constructor); // Person
+
+// Set the constructor to the correct one
+Student.prototype.constructor = Student;
+console.dir(Student.prototype.constructor); // Student
+console.log(leandro);
+*/
+//////////////////////////////////////////////
+// CHALLENGE #1 - OOP
+
 // 1. Use a constructor function to implement a 'Car'. A car has a 'make' and a 'speed' property. The 'speed' property is the current speed of the car in km/h
 const Car = function (make, speed) {
   this.make = make;
@@ -231,9 +280,9 @@ bmw.accelerate();
 
 mercedes.accelerate();
 mercedes.brake();
-*/
+
 //////////////////////////////////////////////
-// CHALLENGE - CLASSES #2
+// CHALLENGE #2 - CLASSES
 
 // 1. Re-create Challenge #1, but this time using an ES6 class (call it 'CarCl')
 
@@ -276,3 +325,44 @@ ford.break();
 ford.accelerate();
 ford.speedUS = 100;
 console.log(ford);
+
+//////////////////////////////////////////////
+// CHALLENGE #3 - CLASS INHERITANCE
+
+// 1. Use a constructor function to implement an Electric Car (called 'EV') as a child "class" of 'Car'. Besides a make and current speed, the 'EV' also has the current battery charge in % ('charge' property)
+
+const EV = function (make, speed, charge) {
+  Car.call(this, make, speed);
+  this.charge = charge;
+};
+
+EV.prototype = Object.create(Car.prototype);
+
+// 2. Implement a 'chargeBattery' method which takes an argument 'chargeTo' and sets the battery charge to 'chargeTo'
+
+EV.prototype.chargeBattery = function (chargeTo) {
+  this.charge = chargeTo;
+};
+
+// 3. Implement an 'accelerate' method that will increase the car's speed by 20, and decrease the charge by 1%. Then log a message like this: 'Tesla going at 140 km/h, with a charge of 22%'
+
+EV.prototype.accelerate = function () {
+  this.speed += 20;
+  this.charge--;
+  console.log(
+    `Tesla going at ${this.speed} km/h, with a charge of ${this.charge}%.`
+  );
+};
+
+// 4. Create an electric car object and experiment with calling 'accelerate', 'brake' and 'chargeBattery' (charge to 90%). Notice what happens when you 'accelerate'! Hint: Review the definiton of polymorphism
+// Test data:
+// § Data car 1: 'Tesla' going at 120 km/h, with a charge of 23%
+
+const tesla = new EV('Tesla', 120, 23);
+console.log(tesla);
+tesla.accelerate();
+tesla.accelerate();
+tesla.accelerate();
+tesla.chargeBattery(90);
+tesla.brake();
+tesla.accelerate();
