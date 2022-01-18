@@ -173,10 +173,11 @@ const getCountryAndNeighbourError = function (country) {
     });
 };
 
-// btn.addEventListener('click', function () {
-//   getCountryAndNeighbourError('romania');
-// });
+btn.addEventListener('click', function () {
+  getCountryAndNeighbourError('romania');
+});
 
+/*
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
@@ -200,6 +201,17 @@ const getCountryAndNeighbourError = function (country) {
 // `https://geocode.xyz/${lat},${lng}?json=1&auth=128527842171487e15815490x102441`
 // `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`
 
+const getCountryChallenge = function (country) {
+  fetch(`https://restcountries.com/v2/name/${country}`)
+    .then(response => {
+      if (!response.ok)
+        throw new Error(`Country not found! (${response.status})`);
+      return response.json();
+    }) // Doesn't work when using { }
+    .then(data => renderCountry(data[0]))
+    .catch(err => console.error(`Something went wrong! ${err.message}`));
+};
+
 const whereAmI = function (lat, lng) {
   fetch(
     `https://geocode.xyz/${lat},${lng}?json=1&auth=128527842171487e15815490x102441`
@@ -210,9 +222,9 @@ const whereAmI = function (lat, lng) {
     })
     .then(data => {
       console.log(`You are in ${data.city}, ${data.country}.`);
-      getCountryDataPromise(`${data.country}`);
+      getCountryChallenge(data.country);
     })
-    .catch(err => console.error(err))
+    .catch(err => console.error(err.message))
     .finally(() => (countriesContainer.style.opacity = 1));
 };
 
@@ -232,3 +244,4 @@ btn.addEventListener('click', () => {
 // § Coordinates 1: 52.508, 13.381 (Latitude, Longitude)
 // § Coordinates 2: 19.037, 72.873
 // § Coordinates 3: -33.933, 18.474
+*/
