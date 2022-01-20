@@ -173,7 +173,7 @@ const renderError = function (message) {
   countriesContainer.insertAdjacentText('beforeend', message);
   countriesContainer.style.opacity = 1;
 };
-/*
+
 ///////////////////////////////////////////////
 // Function to get JSON
 const getJSON = function (url, errorMessage = `Something went wrong!`) {
@@ -183,7 +183,7 @@ const getJSON = function (url, errorMessage = `Something went wrong!`) {
     return response.json();
   });
 };
-
+/*
 ///////////////////////////////////////////////
 // Using XMLHttpRequest
 const getCountryData = function (country) {
@@ -427,7 +427,6 @@ const whereAmI = function () {
 
 // Event handler
 btn.addEventListener('click', whereAmI);
-*/
 
 ///////////////////////////////////////////////
 // Consuming Promises with Async/Await
@@ -472,5 +471,92 @@ const whereAmI = async function () {
     renderError(`🔴 Something went wrong! ${err.message}`);
   }
 };
-
 whereAmI();
+
+const getPosition = () => {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+const whereAmIOpen = async function () {
+  try {
+    // Geolocation
+    const position = await getPosition();
+    const { latitude, longitude } = position.coords;
+
+    // Reverse geocoding
+    const apiKey = '84f0ecbcde084cb5a85b43f4a3cb986f';
+    const apiURL = 'https://api.opencagedata.com/geocode/v1/json';
+    const requestURL =
+      apiURL +
+      '?' +
+      'key=' +
+      apiKey +
+      '&q=' +
+      encodeURIComponent(latitude + ',' + longitude) +
+      '&pretty=1' +
+      '&no_annotations=1';
+
+    const resGeo = await fetch(requestURL);
+    if (!resGeo.ok) throw new Error(`📍 Position not found!`);
+    const dataGeo = await resGeo.json();
+    const country = dataGeo.results[0].components.country;
+
+    // Country data
+    const requestURLCountry = `https://restcountries.com/v2/name/${country}`;
+    const resCountry = await fetch(requestURLCountry);
+    if (!resCountry.ok) throw new Error(`⛔ Country not found!`);
+    const dataCountry = await resCountry.json();
+
+    renderCountry(dataCountry[0]);
+    return `${dataCountry[0].capital}, ${dataCountry[0].name}`;
+  } catch (err) {
+    console.error(`🔴 ${err}`);
+    renderError(`🔴 ${err.message}`);
+
+    // Reject promise returned from async function
+    throw err;
+  }
+};
+
+// console.log(`1: Will get location`);
+// whereAmIOpen()
+//   .then(city => console.log(`2: ${city}`))
+//   .catch(err => console.error(`2: ${err.message}`))
+//   .finally(() => console.log(`3: Finished getting location`));
+
+console.log(`1: Will get location`);
+// async IIFE (Immediately Invoked Function Expression)
+(async function () {
+  try {
+    const result = await whereAmIOpen();
+    console.log(`2: ${result}`);
+  } catch (err) {
+    console.error(`2: ${err.message}`);
+  }
+  console.log(`3: Finished getting location`);
+})();
+*/
+
+///////////////////////////////////////////////
+// Running Promises in Parallel
+
+const get3Countries = async function (c1, c2, c3) {
+  try {
+    const requestURL = `https://restcountries.com/v2/name/`;
+    // const [data1] = await getJSON(`${requestURL}${c1}`);
+    // const [data2] = await getJSON(`${requestURL}${c2}`);
+    // const [data3] = await getJSON(`${requestURL}${c3}`);
+
+    const data = await Promise.all([
+      getJSON(`${requestURL}${c1}`),
+      getJSON(`${requestURL}${c2}`),
+      getJSON(`${requestURL}${c3}`),
+    ]);
+    console.log(data.map(country => country[0].capital));
+  } catch (err) {
+    console.log(err);
+  }
+};
+get3Countries('portugal', 'canada', 'ireland');
