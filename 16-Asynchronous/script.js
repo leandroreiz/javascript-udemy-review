@@ -537,7 +537,6 @@ console.log(`1: Will get location`);
   }
   console.log(`3: Finished getting location`);
 })();
-*/
 
 ///////////////////////////////////////////////
 // Running Promises in Parallel
@@ -560,3 +559,61 @@ const get3Countries = async function (c1, c2, c3) {
   }
 };
 get3Countries('portugal', 'canada', 'ireland');
+*/
+///////////////////////////////////////////////
+// Promise Combinators: race, allSettled and any
+
+let requestURL = `https://restcountries.com/v2/name/`;
+
+// Promise.race
+// The fastest result will be fulfilled, only one result
+(async function () {
+  const res = await Promise.race([
+    getJSON(`${requestURL}italy`),
+    getJSON(`${requestURL}egypt`),
+    getJSON(`${requestURL}mexico`),
+  ]);
+  console.log(res[0]);
+})();
+
+// Setting a timeout function to run against a getJSON
+const timeout = function (sec) {
+  return new Promise(function (_, reject) {
+    setTimeout(() => {
+      reject(new Error(`⌛Request timeout!`));
+    }, sec * 1000);
+  });
+};
+
+Promise.race([getJSON(`${requestURL}brazil`), timeout(1)])
+  .then(data => console.log(data[0]))
+  .catch(err => console.error(err));
+
+// Promise.allSettled
+// Returns an Array of all results for all Promises
+Promise.allSettled([
+  Promise.resolve(`Success`),
+  Promise.reject(`ERROR`),
+  Promise.resolve(`Another success`),
+])
+  .then(data => console.log(data))
+  .catch(err => console.error(err));
+
+// returns an ERROR
+Promise.all([
+  Promise.resolve(`Success`),
+  Promise.reject(`ERROR`),
+  Promise.resolve(`Another success`),
+])
+  .then(data => console.log(data))
+  .catch(err => console.error(err));
+
+// Promise.any [ES2021]
+// Return the first fulfilled Promise, ignore rejected Promises
+Promise.any([
+  Promise.resolve(`Success`),
+  Promise.reject(`ERROR`),
+  Promise.resolve(`Another success`),
+])
+  .then(data => console.log(data))
+  .catch(err => console.error(err));
