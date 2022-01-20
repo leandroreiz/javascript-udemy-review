@@ -431,6 +431,9 @@ btn.addEventListener('click', whereAmI);
 
 ///////////////////////////////////////////////
 // Consuming Promises with Async/Await
+// Next ----->
+///////////////////////////////////////////////
+// Error handling With try...catch
 
 const getPosition = () => {
   return new Promise((resolve, reject) => {
@@ -439,23 +442,35 @@ const getPosition = () => {
 };
 
 const whereAmI = async function () {
-  // Geolocation
-  const position = await getPosition();
-  const { latitude: lat, longetitude: lng } = position.coords;
+  try {
+    // Geolocation
+    const position = await getPosition();
+    const { latitude: lat, longitude: lng } = position.coords;
 
-  // Reverse geocoding
-  const resGeocode = await fetch(
-    `https://geocode.xyz/${lat},${lng}?json=1&auth=128527842171487e15815490x102441`
-  );
-  const dataGeo = await resGeocode.json();
-  console.log(dataGeo);
+    // Reverse geocoding
+    const resGeocode = await fetch(
+      `https://geocode.xyz/${lat},${lng}?json=1&auth=128527842171487e15815490x102441`
+    );
 
-  // Country data
-  const response = await fetch(
-    `https://restcountries.com/v2/name/${dataGeo.country}`
-  );
-  const data = await response.json();
-  renderCountry(data[0]);
+    // Check if the location was successfully retrieved
+    if (!resGeocode.ok) throw new Error(`📍Problem getting location!`);
+    const dataGeo = await resGeocode.json();
+
+    // Country data
+    const resCountry = await fetch(
+      `https://restcountries.com/v2/name/${dataGeo.country}`
+    );
+
+    // Check if the country was returned with success
+    if (!resCountry.ok) throw new Error(`📍Problem getting country!`);
+    const data = await resCountry.json();
+
+    // Render the country information
+    renderCountry(data[0]);
+  } catch (err) {
+    console.error(`🟡 ${err}`);
+    renderError(`🔴 Something went wrong! ${err.message}`);
+  }
 };
 
 whereAmI();
