@@ -1,6 +1,6 @@
 //////////////////////////////////////////////
 // Importing modules
-
+/*
 console.log(`Importing module`);
 
 import add, { cart } from './shoppingCart.js';
@@ -79,3 +79,19 @@ ShoppingCartIFFE.addToCart('apple', 4);
 ShoppingCartIFFE.addToCart('tomatos', 2);
 console.log(ShoppingCartIFFE);
 console.log(ShoppingCartIFFE.shippingCost); // undefined
+
+//////////////////////////////////////////////
+// CommonJS modules
+
+// Works only on NodeJS
+// Export
+export.addToCart = function (product, quantity) {
+  cart.push({ product, quantity });
+  console.log(
+    `${quantity} ${product} added to cart, shipping cost is ${shippingCost}`
+  );
+};
+
+// Import
+const { addToCart } = require('./shoppingCart.js');
+*/
