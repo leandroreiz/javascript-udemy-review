@@ -91,7 +91,7 @@ btn.addEventListener('click', () => {
 // 8. After the 2 seconds have passed, hide the current image
 
 // Test data: Images in the img folder. Test the error handler by passing a wrong image path. Set the network speed to “Fast 3G” in the dev tools Network tab, otherwise images load too fast
-
+*/
 let currentImg;
 
 const imagesContainer = document.querySelector('.images');
@@ -102,13 +102,15 @@ const wait = function (seconds) {
   });
 };
 
-const createImage = function (imgPath) {
+const createImage = function (imgPath, className) {
   return new Promise(function (resolve, reject) {
     const img = document.createElement('img');
     img.src = imgPath;
+    img.className = className;
 
     // Check if the image was loaded
     img.addEventListener('load', () => {
+      imagesContainer.append(img);
       resolve(img);
     });
 
@@ -119,7 +121,7 @@ const createImage = function (imgPath) {
   });
 };
 
-createImage(`img/img-1.jpg`)
+/* createImage(`img/img-1.jpg`)
   .then(img => {
     imagesContainer.append(img);
     currentImg = img;
@@ -137,8 +139,51 @@ createImage(`img/img-1.jpg`)
   .then(() => {
     currentImg.style.display = 'none';
   })
-  .catch(err => console.error(err.message));
-*/
+  .catch(err => console.error(err.message)); */
+
+///////////////////////////////////////////////
+// CHALLENGE #3
+
+const path1 = `img/img-1.jpg`;
+const path2 = `img/img-2.jpg`;
+const path3 = `img/img-3.jpg`;
+
+// PART 1
+const loadNPause = async function (imgPath) {
+  try {
+    // Image 1
+    let img = await createImage(path1);
+    await wait(2);
+    img.style.display = 'none';
+
+    // Image 2
+    img = await createImage(path2);
+    await wait(2);
+    img.style.display = 'none';
+  } catch (err) {
+    console.error(`🔴${err}`);
+  }
+};
+// loadNPause();
+
+// PART 2
+const loadAll = async function (imgArr) {
+  try {
+    // Create images
+    const imgs = imgArr.map(async path => await createImage(path));
+    // Handling the array of Promises
+    const imgsEl = await Promise.all(imgs);
+    // Asign 'parallel' class to the images
+    imgsEl.forEach(imgEl => imgEl.classList.add('parallel'));
+  } catch (err) {
+    console.error(`🔴${err}`);
+  }
+};
+loadAll([path1, path2, path3]);
+
+///////////////////////////////////////////////
+///////////////////////////////////////////////
+///////////////////////////////////////////////
 
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
@@ -559,7 +604,7 @@ const get3Countries = async function (c1, c2, c3) {
   }
 };
 get3Countries('portugal', 'canada', 'ireland');
-*/
+
 ///////////////////////////////////////////////
 // Promise Combinators: race, allSettled and any
 
@@ -617,3 +662,4 @@ Promise.any([
 ])
   .then(data => console.log(data))
   .catch(err => console.error(err));
+*/
