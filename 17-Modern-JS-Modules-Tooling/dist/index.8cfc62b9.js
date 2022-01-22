@@ -520,8 +520,17 @@ function hmrAcceptRun(bundle, id) {
 
 },{}],"6rimH":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+//////////////////////////////////////////////
+// Importing modules
 var _shoppingCartJs = require("./shoppingCart.js");
 var _shoppingCartJsDefault = parcelHelpers.interopDefault(_shoppingCartJs);
+var _lodashEs = require("lodash-es");
+var _lodashEsDefault = parcelHelpers.interopDefault(_lodashEs);
+console.log(`Importing module...`);
+_shoppingCartJsDefault.default('pizza', 2);
+_shoppingCartJsDefault.default('bread', 5);
+_shoppingCartJsDefault.default('apples', 4);
+console.log(_shoppingCartJs.cart);
 /*
 //////////////////////////////////////////////
 // --
@@ -607,16 +616,8 @@ export.addToCart = function (product, quantity) {
 
 // Import
 const { addToCart } = require('./shoppingCart.js');
-*/ // import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
-var _lodashEs = require("lodash-es");
-var _lodashEsDefault = parcelHelpers.interopDefault(_lodashEs);
-//////////////////////////////////////////////
-// Importing modules
-console.log(`Importing module`);
-_shoppingCartJsDefault.default('pizza', 2);
-_shoppingCartJsDefault.default('bread', 5);
-_shoppingCartJsDefault.default('apples', 4);
-console.log(_shoppingCartJs.cart);
+*/ //////////////////////////////////////////////
+// Using Lodash (cloneDeep)
 const state = {
     cart: [
         {
@@ -640,6 +641,19 @@ console.log(stateCloneDeep);
 state.user.loggedIn = false;
 // hold the state of the page
 if (module.hot) module.hot.accept();
+class Person {
+    #greeting = 'Hey';
+    constructor(name){
+        this.name = name;
+        console.log(`${this.#greeting}, ${this.name}`);
+    }
+}
+const leandro = new Person('Leandro');
+console.log('Leandro' ?? null);
+console.log(_shoppingCartJs.cart.find((el)=>el.quantity >= 2
+));
+Promise.resolve('TESTING PROMISES').then((x)=>console.log(x)
+);
 
 },{"./shoppingCart.js":"l6bJl","lodash-es":"bXNwz","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l6bJl":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -24563,6 +24577,6 @@ parcelHelpers.defineInteropFlag(exports);
 }
 exports.default = getView;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["jWVwA","6rimH"], "6rimH", "parcelRequireeb47")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["jWVwA","6rimH"], "6rimH", "parcelRequired62a")
 
 //# sourceMappingURL=index.8cfc62b9.js.map
