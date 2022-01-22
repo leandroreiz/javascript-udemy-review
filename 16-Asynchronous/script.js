@@ -91,7 +91,7 @@ btn.addEventListener('click', () => {
 // 8. After the 2 seconds have passed, hide the current image
 
 // Test data: Images in the img folder. Test the error handler by passing a wrong image path. Set the network speed to “Fast 3G” in the dev tools Network tab, otherwise images load too fast
-*/
+
 let currentImg;
 
 const imagesContainer = document.querySelector('.images');
@@ -121,7 +121,7 @@ const createImage = function (imgPath, className) {
   });
 };
 
-/* createImage(`img/img-1.jpg`)
+createImage(`img/img-1.jpg`)
   .then(img => {
     imagesContainer.append(img);
     currentImg = img;
@@ -139,7 +139,7 @@ const createImage = function (imgPath, className) {
   .then(() => {
     currentImg.style.display = 'none';
   })
-  .catch(err => console.error(err.message)); */
+  .catch(err => console.error(err.message));
 
 ///////////////////////////////////////////////
 // CHALLENGE #3
@@ -180,8 +180,11 @@ const loadAll = async function (imgArr) {
   }
 };
 loadAll([path1, path2, path3]);
+*/
 
 ///////////////////////////////////////////////
+///////////////////////////////////////////////
+// LECTURES ///////////////////////////////////
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
 
