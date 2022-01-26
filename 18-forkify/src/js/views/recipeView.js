@@ -1,5 +1,5 @@
-import icons from 'url:../../img/icons.svg';
 import { Fraction } from 'fractional';
+import icons from 'url:../../img/icons.svg';
 
 class RecipeView {
   #parentElement = document.querySelector('.recipe');
