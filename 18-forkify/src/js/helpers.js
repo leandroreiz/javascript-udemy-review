@@ -14,7 +14,7 @@ export const getJSON = async function (url) {
     const data = await response.json();
 
     if (!response.ok)
-      throw new Error(`Recipe not found! ${data.message} ${data.status}`);
+      throw new Error(`Recipe not found! ${data.message} (${data.status})`);
     return data;
   } catch (err) {
     throw err;
