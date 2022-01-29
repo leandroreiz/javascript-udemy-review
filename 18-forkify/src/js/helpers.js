@@ -20,3 +20,26 @@ export const getJSON = async function (url) {
     throw err;
   }
 };
+
+export const sendJSON = async function (url, uploadData) {
+  try {
+    const response = await Promise.race([
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(uploadData),
+      }),
+      timeout(TIMEOUT_SEC),
+    ]);
+
+    const data = await response.json();
+
+    if (!response.ok)
+      throw new Error(`Recipe not found! ${data.message} (${data.status})`);
+    return data;
+  } catch (err) {
+    throw err;
+  }
+};
