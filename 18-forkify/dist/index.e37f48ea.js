@@ -539,6 +539,8 @@ const controlRecipes = async function() {
         // Guard clause
         if (!id) return;
         _recipeViewJsDefault.default.renderSpinner();
+        // Update results view to mark selected search result
+        _resultsViewJsDefault.default.update(_modelJs.getSearchResultsPage());
         // Loading recipe
         await _modelJs.loadRecipe(id);
         // Rendering recipe
@@ -572,7 +574,8 @@ const controlServings = function(newServings) {
     // Update the recipe servings (in state)
     _modelJs.updateServings(newServings);
     // Update the recipe view
-    _recipeViewJsDefault.default.render(_modelJs.state.recipe);
+    // recipeView.render(model.state.recipe);
+    _recipeViewJsDefault.default.update(_modelJs.state.recipe);
 };
 // Initialize the application
 const init = function() {
@@ -2205,6 +2208,21 @@ class View {
         this._clear();
         this._parentElement.insertAdjacentHTML('afterbegin', markup);
     }
+    update(data) {
+        this._data = data;
+        const newMarkup = this._generateMarkup();
+        const newDOM = document.createRange().createContextualFragment(newMarkup);
+        const newElements = Array.from(newDOM.querySelectorAll('*'));
+        const currentElements = Array.from(this._parentElement.querySelectorAll('*'));
+        newElements.forEach((newEl, i)=>{
+            const currentEl = currentElements[i];
+            // Updates changed TEXT
+            if (!newEl.isEqualNode(currentEl) && newEl.firstChild?.nodeValue.trim() !== '') currentEl.textContent = newEl.textContent;
+            // Updates changed ATTRIBUTES
+            if (!newEl.isEqualNode(currentEl)) Array.from(newEl.attributes).forEach((attr)=>currentEl.setAttribute(attr.name, attr.value)
+            );
+        });
+    }
     _clear() {
         this._parentElement.innerHTML = '';
     }
@@ -2867,9 +2885,10 @@ class ResultsView extends _viewDefault.default {
         return this._data.map(this._generateMarkupPreview).join();
     }
     _generateMarkupPreview(result) {
+        const id = window.location.hash.slice(1);
         return `
       <li class="preview">
-        <a class="preview__link" href="#${result.id}">
+        <a class="preview__link ${result.id === id ? 'preview__link--active' : ''}" href="#${result.id}">
           <figure class="preview__fig">
             <img src="${result.image}" alt="${result.title}" />
           </figure>
