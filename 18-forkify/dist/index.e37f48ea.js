@@ -605,6 +605,10 @@ const controlAddRecipe = async function(newRecipe) {
         _recipeViewJsDefault.default.render(_modelJs.state.recipe);
         // Success message
         _addRecipeViewJsDefault.default.renderMessage();
+        // Render bookmark view
+        _bookmarksViewJsDefault.default.render(_modelJs.state.bookmarks);
+        // Change ID in url
+        window.history.pushState(null, '', `#${_modelJs.state.recipe.id}`);
         // Close form window
         setTimeout(()=>{
             _addRecipeViewJsDefault.default.toggleWindow();
@@ -1726,7 +1730,7 @@ const createRecipeObject = function(data) {
 };
 const loadRecipe = async function(id) {
     try {
-        const data = await _helpersJs.getJSON(`${_configJs.API_URL}${id}`);
+        const data = await _helpersJs.AJAX(`${_configJs.API_URL}${id}?key=${_configJs.API_KEY}`);
         state.recipe = createRecipeObject(data);
         if (state.bookmarks.some((bookmark)=>bookmark.id === id
         )) state.recipe.bookmarked = true;
@@ -1739,13 +1743,16 @@ const loadRecipe = async function(id) {
 const loadSearchResults = async function(query) {
     try {
         state.search.query = query;
-        const data = await _helpersJs.getJSON(`${_configJs.API_URL}?search=${query}`);
+        const data = await _helpersJs.AJAX(`${_configJs.API_URL}?search=${query}&key=${_configJs.API_KEY}`);
         state.search.results = data.data.recipes.map((recipe)=>{
             return {
                 id: recipe.id,
                 title: recipe.title,
                 publisher: recipe.publisher,
-                image: recipe.image_url
+                image: recipe.image_url,
+                ...recipe.key && {
+                    key: recipe.key
+                }
             };
         });
         // Reset page
@@ -1792,7 +1799,8 @@ const uploadRecipe = async function(newRecipe) {
     try {
         const ingredients = Object.entries(newRecipe).filter((entry)=>entry[0].startsWith('ingredient') && entry[1] !== ''
         ).map((ingredient)=>{
-            const ingredientArr = ingredient[1].replaceAll(' ', '').split(',');
+            const ingredientArr = ingredient[1].split(',').map((el)=>el.trim()
+            );
             if (ingredientArr.length !== 3) throw new Error(`Wrong ingredient format! Please use the correct format :)`);
             const [quantity, unit, description] = ingredientArr;
             return {
@@ -1810,7 +1818,7 @@ const uploadRecipe = async function(newRecipe) {
             servings: +newRecipe.servings,
             ingredients
         };
-        const data = await _helpersJs.sendJSON(`${_configJs.API_URL}?key=${_configJs.API_KEY}`, recipe);
+        const data = await _helpersJs.AJAX(`${_configJs.API_URL}?key=${_configJs.API_KEY}`, recipe);
         state.recipe = createRecipeObject(data);
         addBookmark(state.recipe);
     } catch (err) {
@@ -1879,9 +1887,7 @@ exports.export = function(dest, destName, get) {
 },{}],"hGI1E":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "getJSON", ()=>getJSON
-);
-parcelHelpers.export(exports, "sendJSON", ()=>sendJSON
+parcelHelpers.export(exports, "AJAX", ()=>AJAX
 );
 var _configJs = require("./config.js");
 const timeout = function(s) {
@@ -1891,30 +1897,18 @@ const timeout = function(s) {
         }, s * 1000);
     });
 };
-const getJSON = async function(url) {
+const AJAX = async function(url, uploadData) {
     try {
+        const fetchArgs = uploadData ? fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(uploadData)
+        }) : fetch(url);
         const response = await Promise.race([
-            fetch(url),
+            fetchArgs,
             timeout(_configJs.TIMEOUT_SEC)
-        ]);
-        const data = await response.json();
-        if (!response.ok) throw new Error(`Recipe not found! ${data.message} (${data.status})`);
-        return data;
-    } catch (err) {
-        throw err;
-    }
-};
-const sendJSON = async function(url, uploadData) {
-    try {
-        const response = await Promise.race([
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(uploadData)
-            }),
-            timeout(_configJs.TIMEOUT_SEC), 
         ]);
         const data = await response.json();
         if (!response.ok) throw new Error(`Recipe not found! ${data.message} (${data.status})`);
@@ -1996,8 +1990,10 @@ class RecipeView extends _viewDefault.default {
           </div>
         </div>
 
-        <div class="recipe__user-generated">
-          
+        <div class="recipe__user-generated ${this._data.key ? '' : 'hidden'}">
+          <svg>
+            <use href="${_iconsSvgDefault.default}#icon-user"></use>
+          </svg>
         </div>
         <button class="btn--round btn--bookmark">
           <svg class="">
@@ -3037,11 +3033,13 @@ class ResultsView extends _viewDefault.default {
 }
 exports.default = new ResultsView();
 
-},{"./View":"5cUXS","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./previewView":"1FDQ6"}],"1FDQ6":[function(require,module,exports) {
+},{"./View":"5cUXS","./previewView":"1FDQ6","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1FDQ6":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _view = require("./View");
 var _viewDefault = parcelHelpers.interopDefault(_view);
+var _iconsSvg = require("url:../../img/icons.svg");
+var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 class PreviewView extends _viewDefault.default {
     _parentElement = '';
     _generateMarkup(result) {
@@ -3055,6 +3053,11 @@ class PreviewView extends _viewDefault.default {
           <div class="preview__data">
             <h4 class="preview__title">${this._data.title}</h4>
             <p class="preview__publisher">${this._data.publisher}</p>
+            <div class="preview__user-generated ${this._data.key ? '' : 'hidden'}">
+              <svg>
+                <use href="${_iconsSvgDefault.default}#icon-user"></use>
+              </svg>
+            </div>
           </div>
         </a>
       </li>
@@ -3063,7 +3066,7 @@ class PreviewView extends _viewDefault.default {
 }
 exports.default = new PreviewView();
 
-},{"./View":"5cUXS","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6z7bi":[function(require,module,exports) {
+},{"./View":"5cUXS","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","url:../../img/icons.svg":"loVOp"}],"6z7bi":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _view = require("./View");
@@ -3143,7 +3146,7 @@ class BookmarksView extends _viewDefault.default {
 }
 exports.default = new BookmarksView();
 
-},{"./View":"5cUXS","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./previewView":"1FDQ6"}],"i6DNj":[function(require,module,exports) {
+},{"./View":"5cUXS","./previewView":"1FDQ6","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"i6DNj":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _view = require("./View");
