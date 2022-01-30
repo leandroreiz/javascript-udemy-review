@@ -537,6 +537,13 @@ var _addRecipeViewJsDefault = parcelHelpers.interopDefault(_addRecipeViewJs);
 var _configJs = require("./config.js");
 var _runtime = require("regenerator-runtime/runtime");
 if (module.hot) module.hot.accept();
+const welcomeMessage = function() {
+    console.log(`
+    /////////////////////////////
+    // WELCOME TO FORKIFY V1.0 //
+    /////////////////////////////
+  `);
+};
 const controlRecipes = async function() {
     try {
         // Collect id
@@ -627,6 +634,7 @@ const init = function() {
     _searchViewJsDefault.default.addHandlerSearch(controlSearchResults);
     _paginationViewJsDefault.default.addHandlerClick(controlPagination);
     _addRecipeViewJsDefault.default.addHandlerUpload(controlAddRecipe);
+    welcomeMessage();
 };
 init();
 
@@ -1849,7 +1857,7 @@ parcelHelpers.export(exports, "RES_PER_PAGE", ()=>RES_PER_PAGE
 parcelHelpers.export(exports, "MODAL_CLOSE_SEC", ()=>MODAL_CLOSE_SEC
 );
 const API_URL = 'https://forkify-api.herokuapp.com/api/v2/recipes/';
-const API_KEY = 'b1921daf-6113-4e87-97f4-137790063c1b';
+const API_KEY = 'f4ffdadc-770a-4ed6-985e-d061ff702a5a';
 const TIMEOUT_SEC = 10;
 const RES_PER_PAGE = 10;
 const MODAL_CLOSE_SEC = 2.5;

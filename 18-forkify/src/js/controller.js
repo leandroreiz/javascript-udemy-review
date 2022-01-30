@@ -17,9 +17,9 @@ if (module.hot) {
 
 const welcomeMessage = function () {
   console.log(`
-    ////////////////////////////////
-    // WELCOME TO THE APPLICATION //
-    ////////////////////////////////
+    /////////////////////////////
+    // WELCOME TO FORKIFY V1.0 //
+    /////////////////////////////
   `);
 };
 
