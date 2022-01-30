@@ -15,6 +15,14 @@ if (module.hot) {
   module.hot.accept();
 }
 
+const welcomeMessage = function () {
+  console.log(`
+    ////////////////////////////////
+    // WELCOME TO THE APPLICATION //
+    ////////////////////////////////
+  `);
+};
+
 const controlRecipes = async function () {
   try {
     // Collect id
@@ -129,5 +137,6 @@ const init = function () {
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
   addRecipeView.addHandlerUpload(controlAddRecipe);
+  welcomeMessage();
 };
 init();
