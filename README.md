@@ -1,72 +1,147 @@
-# Course Material and FAQ for my Complete JavaScript Course
+# Javascript Basic Commands
 
-This repo contains starter files and final code for all sections and projects contained in the course.
+- console.log('Hello World!'); -> Log the message between single (or double) quotes in console
+- var variableName = value; -> Declaring a variable
+  In Javascript you don't need to declare the type of a variable. In this case the type will be automatically defined as 'undefined'
+- //line comment
+- /\*multi-line/block
+  comment\*/
+- alert() -> Creates a pop-up window with the message contained between the parenthesis
+- prompt() -> Asks for an input from the user that can be stored in a variable
+- typeof -> returns the type of the variable/data described on it
 
-Use starter code to start each section, and **final code to compare it with your own code whenever something doesn't work**!
+## Primitive Javascript Data Types
 
-👇 **_Please read the following Frequently Asked Questions (FAQ) carefully before starting the course_** 👇
+### number
 
-## FAQ
+Floating point numbers, for decimal and integers
 
-### Q1: How do I download the files?
+### string
 
-**A:** If you're new to GitHub and just want to download the entire code, hit the green button saying "Code", and then choose the "Download ZIP" option. If you can't see the button (on mobile), use [this link](https://github.com/jonasschmedtmann/complete-javascript-course/archive/master.zip) instead.
+Sequence of characters, used for text
 
-### Q2: I'm looking for the old course version (v1) files. Where can I find them?
+### boolean
 
-**A:** They are in this same repo, but in the [v1 branch](https://github.com/jonasschmedtmann/complete-javascript-course/tree/v1). So just go to [v1](https://github.com/jonasschmedtmann/complete-javascript-course/tree/v1), and download the code from there.
+Logical data type that can only be true or false
 
-### Q3: I'm stuck! Where do I get help?
+### undefined
 
-**A:** Have you actually tried to fix the problem on your own? Have you compared your code to the final code? If you failed fixing your problem, please **post a detailed description of the problem to the Q&A area of that video over at Udemy**, along with a [codepen](https://codepen.io/pen/) containing your code. You will get help there. Please don't send me a personal message or email to fix coding problems.
+Data Type of a variable that does not have a value yet
 
-### Q4: What VSCode theme are you using?
+### null
 
-**A:** I use Monokai Pro for all my coding and course production. It's a paid theme (I', **not** affiliated with them), but you can actually use the free demo version forever 😅
+Also means 'non-existent'
 
-### Q5: Can I see a final version of the course projects?
+## Type coercion
 
-**A:** Sure! Here you go:
+Is the process of converting value from one type to another (such as string to number, object to boolean, and so on).
 
-- [Pig Game](https://pig-game-v2.netlify.app) (DOM Manipulation)
-- [Bankist](https://bankist.netlify.app/) (Arrays, Numbers, Dates, Timers. Fake "log in" with user `js` and PIN `1111`)
-- [Bankist Site](https://bankist-dom.netlify.app/) (Advanced DOM and Events)
-- [Mapty](https://mapty.netlify.app/) (OOP, Geolocation, Project planning)
-- [forkify](https://forkify-v2.netlify.app/) (Final advanced project)
+## Variable mutation
 
-### Q6: Videos don't load, can you fix it?
+When you mutate a variable you are modifying the original value.
 
-**A:** Unfortunately, there is nothing I can do about it. The course is hosted on Udemy, and sometimes they have technical issues like this. Please just come back a bit later or [contact their support team](https://support.udemy.com/hc/en-us).
+## Boolean Logic (NOT, AND & OR)
 
-### Q7: Videos are blurred / have low quality, can you fix it?
+&& -> AND
+|| -> OR
+! -> NOT
 
-**A:** Please open video settings and change the quality from 'Auto' to another value, for example 720p. If that doesn't help, please [contact the Udemy support team](https://support.udemy.com/hc/en-us).
+## if and else statements
 
-### Q8: Are the videos downloadable?
+if (condition1) {
+// block of code to be executed if condition1 is true
+} else if (condition2) {
+// block of code to be executed if the condition1 is false and condition2 is true
+} else {
+// block of code to be executed if the condition1 is false and condition2 is false
+}
 
-**A:** Yes! I made all videos downloadable from Udemy so you can learn even without an internet connection. To download a video, use the settings icon in the right bottom corner of the video player. Videos have to be downloaded individually.
+## The Ternary Operator and Switch Statements
 
-### Q9: I want to put these projects in my portfolio. Is that allowed?
+condition ? block of code to be executed if condition is true : block of code to be executed if the condition1 is false;
 
-**A:** Absolutely! Just make sure you actually built them yourself by following the course, and that you understand what you did. What is **not allowed** is that you create your own course/videos/articles based on this course's content!
+switch(expression) {
+case x:
+// code block
+break;
+case y:
+// code block
+break;
+default:
+// code block
+}
 
-### Q10: You mentioned your resources page. Where can I find it?
+**_This is how it works:_**
 
-**A:** It's on my website at <http://codingheroes.io/resources>. You can subscribe for updates 😉
+The switch expression is evaluated once.
+The value of the expression is compared with the values of each case.
+If there is a match, the associated block of code is executed.
 
-### Q11: I love your courses and want to get updates on new courses. How?
+## Truthy and Falsy values and equality operators
 
-**A:** First, you can subscribe to my email list [at my website](http://codingheroes.io/resources). Plus, I make important announcements on twitter [@jonasschmedtman](https://twitter.com/jonasschmedtman), so you should definitely follow me there 🔥
+Falsy values: undefined, null, 0, '', NaN
+Truthy values: NOT falsy values
 
-### Q12: How do I get my certificate of completion?
+## The Equality Operator
 
-**A:** A certificate of completion is provided by Udemy after you complete 100% of the course. After completing the course, just click on the "Your progress" indicator in the top right-hand corner of the course page. If you want to change your name on the certificate, please [contact the Udemy support team](https://support.udemy.com/hc/en-us).
+== -> This operator does the type coercion.
+=== -> This is a strict operator and it needs to be compared with variables of the same type.
 
-### Q13: Can you add subtitles in my language?
+!= -> Different operator that does type coercion
+!== -> Diffenrent strict operator
 
-**A:** No. I provide professional English captions, but Udemy is responsible for subtitles in all other languages (automatic translations). So please [contact the Udemy support team](https://support.udemy.com/hc/en-us) to request your own language.
+## Loops and Iteration
 
-### Q14: Do you accept pull requests?
+for (statement 1; statement 2; statement 3) {
+// code block to be executed
+}
 
-**A:** No, for the simple reason that I want this repository to contain the _exact_ same code that is shown in the videos. However, please feel free to add an issue if you found one.
-# javascript-udemy-review
+**_Statement 1 is executed (one time) before the execution of the code block._**
+**_Statement 2 defines the condition for executing the code block._**
+**_Statement 3 is executed (every time) after the code block has been executed._**
+
+while (condition) {
+// code block to be executed
+}
+
+do {
+// code block to be executed
+}
+while (condition);
+
+### Break and Continue
+
+The break statement "jumps out" of a loop.
+The continue statement "jumps over" one iteration in the loop.
+
+## Functions
+
+function myFunction(p1, p2) {
+return p1 \* p2; // The function returns the product of p1 and p2
+}
+
+## Objects
+
+var person = {
+firstName: 'John',
+surName: 'Smith',
+birthYear: 1983
+};
+
+### Methods
+
+var person = {
+firstName: "John",
+lastName : "Doe",
+id : 5566,
+fullName : function() {
+return this.firstName + " " + this.lastName;
+}
+};
+
+In a function definition, this refers to the "owner" of the function.
+In the example above, this is the person object that "owns" the fullName function.
+In other words, this.firstName means the firstName property of this object.
+
+**_Acessing Object Methods_**
+objectName.methodName()
